@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-data:/usr/local/share/postgresql/data/
+    environment:
+      - POSTGRES_USER=denyskorotin
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=task_management
+      - PGDATA=/data
+    ports:
+      - 5432:5432
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+volumes:
+  postgres-data:
