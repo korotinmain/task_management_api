@@ -15,12 +15,12 @@ import { Task } from './task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateStatusDto } from './dto/update-task-status.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../auth/user.entity';
+import { GetUser } from '../auth/decorators/get-user.decorator';
+import { User } from '../auth/entity/user.entity';
+import { JwtAuthenticationGuard } from '../guards/jwt-authentication.guard';
 
 @Controller('tasks')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthenticationGuard)
 export class TasksController {
   private logger = new Logger('TasksController');
 

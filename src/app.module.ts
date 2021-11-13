@@ -28,6 +28,16 @@ import { configValidationSchema } from './config.schema';
         };
       },
     }),
+    // MongooseModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     uri: configService.get<string>('MONGODB_CONNECTION_STRING'),
+    //   }),
+    // }),
+    // MongooseModule.forRoot(
+    //   'mongodb://denyskorotin:mongodb@127.0.0.1:27017/task_management_db?authSource=admin&readPreference=primary&ssl=false',
+    // ),
     AuthModule,
   ],
   providers: [],

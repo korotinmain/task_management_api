@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { User } from './user.entity';
-import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { User } from '../entity/user.entity';
+import { AuthCredentialsDto } from '../dto/auth-credentials.dto';
 import {
   ConflictException,
   InternalServerErrorException,
@@ -9,7 +9,9 @@ import * as bcrypt from 'bcrypt';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
-  async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  async createUser(
+    authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ message: string }> {
     const { username, password } = authCredentialsDto;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -18,6 +20,7 @@ export class UsersRepository extends Repository<User> {
 
     try {
       await this.save(user);
+      return { message: 'User successfully created !' };
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
@@ -25,5 +28,10 @@ export class UsersRepository extends Repository<User> {
         throw new InternalServerErrorException();
       }
     }
+  }
+
+  async getUserInfoByUsername(username: string): Promise<User | null> {
+    const auth = await this.findOne({ username });
+    return auth ? auth : null;
   }
 }

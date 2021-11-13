@@ -6,7 +6,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStatus } from './task-status.enum';
 import { DeleteResult } from 'typeorm';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
-import { User } from '../auth/user.entity';
+import { User } from '../auth/entity/user.entity';
 
 @Injectable()
 export class TasksService {

@@ -8,15 +8,18 @@ import { User } from './entity/user.entity';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtRefreshStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh-token',
+) {
   constructor(
     @InjectRepository(UsersRepository)
     private usersRepository: UsersRepository,
     private configService: ConfigService,
   ) {
     super({
-      secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      jwtFromRequest: ExtractJwt.fromBodyField('refresh_token'),
     });
   }
 
